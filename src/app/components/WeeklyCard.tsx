@@ -1,4 +1,4 @@
-import { CalendarDays, Check, Plus, X } from 'lucide-react';
+import { CalendarDays, Check, Plus, Trash2, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { useTasks } from '../context/FirebaseTaskContext';
@@ -20,7 +20,7 @@ const daysOfWeek = [
 ];
 
 export function WeeklyCard({ isExpanded, onExpand, onCollapse }: WeeklyCardProps) {
-  const { getTasksForDate, toggleTask, addTask } = useTasks();
+  const { getTasksForDate, toggleTask, addTask, deleteTask } = useTasks();
   const today = new Date().getDay();
   const todayIndex = today === 0 ? 6 : today - 1; // Adjust Sunday to be last
   const [selectedDay, setSelectedDay] = useState(todayIndex);
@@ -292,7 +292,7 @@ export function WeeklyCard({ isExpanded, onExpand, onCollapse }: WeeklyCardProps
                       key={task.id}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="group flex items-start gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors"
                     >
                       <button
                         onClick={() => toggleTask(task.id)}
@@ -332,6 +332,14 @@ export function WeeklyCard({ isExpanded, onExpand, onCollapse }: WeeklyCardProps
                           </div>
                         )}
                       </div>
+                      <button
+                        onClick={() => deleteTask(task.id)}
+                        className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-red-50 transition-all"
+                        aria-label="Delete task"
+                        title="Delete task"
+                      >
+                        <Trash2 className="w-4 h-4" style={{ color: 'var(--dashboard-error)' }} />
+                      </button>
                     </motion.div>
                   ))
                 ) : (
