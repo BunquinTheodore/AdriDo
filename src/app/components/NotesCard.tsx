@@ -12,7 +12,6 @@ interface NotesCardProps {
 export function NotesCard({ isExpanded, onExpand, onCollapse }: NotesCardProps) {
   const { notes, saving, updateNotes } = useNotes();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const maxChars = 1000;
 
   // Auto-resize textarea
   useEffect(() => {
@@ -54,9 +53,7 @@ export function NotesCard({ isExpanded, onExpand, onCollapse }: NotesCardProps) 
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    if (value.length <= maxChars) {
-      updateNotes(value);
-    }
+    updateNotes(value);
   };
 
   return (
@@ -126,7 +123,6 @@ export function NotesCard({ isExpanded, onExpand, onCollapse }: NotesCardProps) 
                 color: 'var(--dashboard-text-primary)',
                 backgroundColor: '#FAFAFA',
               }}
-              maxLength={maxChars}
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}
             />
@@ -157,7 +153,7 @@ export function NotesCard({ isExpanded, onExpand, onCollapse }: NotesCardProps) 
                 )}
               </div>
               <span className="text-sm" style={{ color: 'var(--dashboard-text-secondary)' }}>
-                {notes.length}/{maxChars}
+                {notes.length} characters
               </span>
             </div>
           </motion.div>
