@@ -1,15 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-// Firebase configuration for adri-track
+// Firebase configuration using environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyCYTtb8okPtYqjZ6ux1OFgtBdFrS3pG8wE",
-  authDomain: "adri-track.firebaseapp.com",
-  projectId: "adri-track",
-  storageBucket: "adri-track.firebasestorage.app",
-  messagingSenderId: "833691593952",
-  appId: "1:833691593952:web:9cf6160baa81913bfa3485",
-  measurementId: "G-3YKBN7877N"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
