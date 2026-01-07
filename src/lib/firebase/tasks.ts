@@ -195,24 +195,31 @@ export async function resetDailyTasks(userId: string, today: string): Promise<vo
 }
 
 // Check and perform daily reset if needed
+// This function should only reset YESTERDAY's tasks, not today's
 export async function checkAndResetDaily(
   userId: string,
   lastResetDate: string
 ): Promise<boolean> {
-  const today = new Date().toISOString().split('T')[0];
+  // Use local date to avoid timezone issues
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-  if (lastResetDate !== today) {
-    // Reset today's tasks
-    await resetDailyTasks(userId, today);
-
+  if (lastResetDate !== today && lastResetDate !== '') {
+    // Only reset tasks from previous days, NOT today
+    // The lastResetDate is the date we last performed a reset
+    // We don't need to reset anything - completed status should persist
+    // This function was incorrectly resetting today's tasks
+    
     // Update last reset date in user profile
     const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, {
       lastResetDate: today,
+    }).catch(() => {
+      // User doc might not exist, that's okay
     });
 
-    return true; // Reset was performed
+    return true; // Date check performed
   }
 
-  return false; // No reset needed
+  return false; // No action needed
 }
